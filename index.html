@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <script type="text/javascript" src="https://unpkg.com/@glue42/desktop@4.5.7/dist/web/@glue42/desktop.js"></script>
+    <style type="text/css">
+      .distinguishable {
+        margin-top:80px;
+        color: white;
+        background-color: #b40000;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="timeHolder" class="distinguishable"></div>
+    <script>
+      Glue().then((glue) => {
+        window.glue = glue;
+        var currentWindow = glue.windows.my();
+        let { lastSaveTime } = currentWindow.context;
+        document.getElementById('timeHolder').innerHTML = lastSaveTime;
+
+        currentWindow.onContextUpdated((newContext) => {
+          lastSaveTime = new Date().getTime();
+          alert('One of these is not necessarry');
+          document.getElementById('timeHolder').innerHTML = lastSaveTime;
+        });
+
+        glue.layouts.onSaveRequested((saveContext) => {
+          alert('oooo');
+          return {
+            windowContext: {lastSaveTime: new Date().getTime(), aaa: 'bbb', ccc: 'ddd'}
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

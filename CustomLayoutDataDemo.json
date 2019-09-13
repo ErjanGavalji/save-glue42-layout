@@ -1,0 +1,17 @@
+[
+    {
+        "title": "Custom Layout Data Demo",
+        "type": "window",
+        "name": "CustomLayoutDataDemo",
+        "details": {
+            "url": "file:///C:/Glue42Demos/save-glue42-layout/index.html",
+            "top": 100,
+            "left": 200,
+            "width": 400,
+            "height": 400,
+            "allowCollapse": false,
+            "startLocation": "center"
+        },
+        "allowMultiple": true
+    }
+]
