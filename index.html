@@ -1,6 +1,7 @@
 <html>
   <head>
     <script type="text/javascript" src="https://unpkg.com/@glue42/desktop@4.5.7/dist/web/@glue42/desktop.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
     <style type="text/css">
       .distinguishable {
         margin-top:80px;
@@ -12,22 +13,32 @@
   <body>
     <div id="timeHolder" class="distinguishable"></div>
     <script>
+      var dateTimeFormatString = 'YYYY-MM-DD HH:mm:ss';
       Glue().then((glue) => {
         window.glue = glue;
         var currentWindow = glue.windows.my();
         let { lastSaveTime } = currentWindow.context;
-        document.getElementById('timeHolder').innerHTML = lastSaveTime;
 
+        let lastSaveTimeFormatted = "none";
+        if (lastSaveTime) {
+          lastSaveTimeFormatted = moment(lastSaveTime).format(dateTimeFormatString);
+        }
+        document.getElementById('timeHolder').innerHTML = `Last layout save time was: ${lastSaveTimeFormatted}`;
+
+        // Handle the dynamic context update (i.e. from another application,
+        //   targeting our window):
         currentWindow.onContextUpdated((newContext) => {
-          lastSaveTime = new Date().getTime();
-          alert('One of these is not necessarry');
-          document.getElementById('timeHolder').innerHTML = lastSaveTime;
+          let contextUpdateSaveTime = new Date().getTime();
+          let lastSaveTimeFormatted = moment(lastSaveTime).format(dateTimeFormatString);
+
+          document.getElementById('timeHolder').innerHTML = `Dynamic context update at: ${lastSaveTimeFormatted}`;
         });
 
+        // Store the latest save time in the layout context:
         glue.layouts.onSaveRequested((saveContext) => {
-          alert('oooo');
+          let currentTime = new Date().getTime();
           return {
-            windowContext: {lastSaveTime: new Date().getTime(), aaa: 'bbb', ccc: 'ddd'}
+            windowContext: {lastSaveTime: currentTime}
           }
         });
       });
