@@ -12,6 +12,7 @@
             "allowCollapse": false,
             "startLocation": "center"
         },
-        "allowMultiple": true
+        "allowMultiple": true,
+        "customProperties": { "includeInCanvas": true }
     }
 ]
